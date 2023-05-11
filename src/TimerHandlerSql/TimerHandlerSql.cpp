@@ -11,24 +11,30 @@ namespace Timer
         connection_info+=DbInfo::DbInfo::getLoginValue() + " ";
         connection_info+= "dbname=" + DbInfo::DbInfo::getDbNameValue() + " ";
 
-        pqxx::connection c(connection_info);
-        
-        pqxx::work txn(c);
-
         try {
-            std::for_each(cmds.cbegin(), cmds.cend(), [&txn, this](std::string cmd) {
-            pqxx::result result = txn.exec(cmd);
+            pqxx::connection c(connection_info);
 
-            // if (result.affected_rows()) {
-            //     *logger << "AFFECTED_ROWS(" << cmd << "): " << result.affected_rows() << std::endl;
-            // }
-            });
+            pqxx::work txn(c);
 
-            txn.commit();
+            try {
+                std::for_each(cmds.cbegin(), cmds.cend(), [&txn, this](std::string cmd) {
+                pqxx::result result = txn.exec(cmd);
+    
+                // if (result.affected_rows()) {
+                //     *logger << "AFFECTED_ROWS(" << cmd << "): " << result.affected_rows() << std::endl;
+                // }
+                });
+    
+                txn.commit();
+    
+                logger->info(*this);
+            } catch (const std::exception& e) {
+                logger->error(e.what());
+            }
+        } catch (const std::exception& err) {
+            logger->error(err.what());
 
-            logger->info(*this);
-        } catch (const std::exception& e) {
-            logger->error(e.what());
+            return;
         }
     }
 
