@@ -62,11 +62,16 @@ namespace FileParser
     std::vector<Timer::TimerHandler*> FileParser::getCommands()  {
         std::vector<Timer::TimerHandler*> cmds;
         if (!file.is_open()) {
-            throw std::invalid_argument("Невозможно открыть файл конфигурирования");
+            throw std::invalid_argument("Невозможно открыть файл конфигурации");
         } else {
+            if (file.peek() == EOF) {
+                throw std::invalid_argument("Файл конфигурации пуст");
+            }
+
             std::string line, transform_line;
             std::vector<std::string> parts;
             bool read_last = false;
+            
             while (true) {
                 if (!read_last) {
                     if (file.eof()) {
@@ -123,17 +128,6 @@ namespace FileParser
 
                             if (parts[0] == "sql" || parts[0] == "dump") {
                                 read_last = true;
-                                // int seek = line.length() + 1;
-
-                                // file.seekg(-seek, std::ios::cur);
-
-                                // // TODO: считать строку, если не конец файла
-
-                                // if (!file.eof()) {
-                                //     getline(file, line);
-
-                                //     std::cout << "\t|" << line << "|" << std::endl;
-                                // }
 
                                 break;
                             }

@@ -9,6 +9,8 @@
 #include "src/TimerHandlerSql/TimerHandlerSql.h"
 #include "src/DbConnectionInfo/DbConnectionInfo.h"
 
+void print_proc_id_terminated(void);
+
 int main(int argc, char* argv[]) {
     if (argc < 2) {
         std::cerr << "Не указан путь к конфигурационному файлу\n";
@@ -27,18 +29,25 @@ int main(int argc, char* argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    // if ((pid = fork()) == -1) {
-    //     logger->error("| Ошибка при создании демона");
+    if ((pid = fork()) == -1) {
+        logger->error("| Ошибка при создании демона");
 
-    //     exit(EXIT_FAILURE);
-    // }
-    // if (!pid) {
-    //     logger->info("| PID процесса: " + std::to_string(getpid()));
-    //     setsid();
-    // }
-    // if (pid) {
-    //     exit(EXIT_SUCCESS);
-    // }
+        exit(EXIT_FAILURE);
+    }
+    if (!pid) {
+        close(STDIN_FILENO);
+        close(STDOUT_FILENO);
+        close(STDERR_FILENO);
+
+        logger->info("| PID процесса: " + std::to_string(getpid()));
+
+        atexit(print_proc_id_terminated);
+
+        setsid();
+    }
+    if (pid) {
+        exit(EXIT_SUCCESS);
+    }
 /*
     close(STDIN_FILENO);
     close(STDERR_FILENO);
@@ -71,7 +80,6 @@ int main(int argc, char* argv[]) {
         logger->error(err.what());
     }
 
-    // TODO: ожидать всех потоков
     for (auto&& t : threads) {
         try {
             t.join();
@@ -79,12 +87,17 @@ int main(int argc, char* argv[]) {
             std::cout << err.what() << std::endl;
         }
     }
-    // std::condition_variable cv;
-    // std::mutex m;
-    // std::unique_lock<std::mutex> lock(m);
+    /*
+    std::condition_variable cv;
+    std::mutex m;
+    std::unique_lock<std::mutex> lock(m);
 
-    // cv.wait(lock, []() { return false; });
+    cv.wait(lock, []() { return false; });
+    */
 
     return 0;
 }
 
+void print_proc_id_terminated(void) {
+    Logger::Logger::get_logger()->info("| Процесс с PID " + std::to_string(getpid()) + " завершил работу");
+}
