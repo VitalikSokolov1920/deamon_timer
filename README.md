@@ -7,6 +7,8 @@ git clone --recurse-submodules https://github.com/VitalikSokolov1920/deamon_time
 
 После клонирования необходимо зайти в к директорию libpqxx проекта и выполнить следующие команды:
 
+1. sudo apt install cmake libpq-dev postgresql-server-dev-all g++
+
 1. ./configure CXXFLAGS="-std=c++17"
 
 2. make

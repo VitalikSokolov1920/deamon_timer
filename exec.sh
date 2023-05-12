@@ -21,4 +21,4 @@ export LOG_PATH='../IVT_log.log'
 # значение по умолчанию: ./backup
 export DUMP_PATH='../ivt_dump'
 
-# ./practice ../config.txt
+./IVT_deamon ../config.txt
