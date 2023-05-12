@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "DbConnectionInfo.h"
 
 namespace DbInfo

@@ -1,6 +1,3 @@
-#include <fcntl.h>
-#include <unistd.h>
-
 #include "Logger.h"
 
 namespace Logger

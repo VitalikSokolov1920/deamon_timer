@@ -8,8 +8,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(DSKIP_BUILD_TEST on)
 
 add_compile_options(-g -O0 -W)
-# -Wold-style-cast делает все приведения в стиле C предупреждениями
-# -Werror делает все предупреждения ошибками
 
 add_executable(${PROJECT_NAME}
     main.cpp

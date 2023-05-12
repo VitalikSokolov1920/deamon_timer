@@ -20,11 +20,7 @@ namespace Timer
             dump_path = getenv("DUMP_PATH");
         }
 
-        // 1. директория уже существует
-        // 2. директория не существует
-        // 3. существует файл с таким же именем
-
-        struct stat st;
+        struct stat st{};
         int ret;
 
         if ((ret = stat(dump_path.c_str(), &st)) == -1) {

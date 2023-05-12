@@ -1,12 +1,8 @@
 #include <iostream>
 #include <pqxx/pqxx>
-#include <chrono>
-#include <fcntl.h>
 #include <unistd.h>
-#include <errno.h>
 
 #include "src/FileParser/FileParser.h"
-#include "src/TimerHandlerSql/TimerHandlerSql.h"
 #include "src/DbConnectionInfo/DbConnectionInfo.h"
 
 void print_proc_id_terminated(void);
@@ -14,6 +10,24 @@ void print_proc_id_terminated(void);
 int main(int argc, char* argv[]) {
     if (argc < 2) {
         std::cerr << "Не указан путь к конфигурационному файлу\n";
+
+        exit(EXIT_FAILURE);
+    }
+
+    if (getenv(DbInfo::DbInfo::getLoginName()) == nullptr) {
+        std::cerr << "Не указан пользователь базы данных\n";
+
+        exit(EXIT_FAILURE);
+    }
+
+    if (getenv(DbInfo::DbInfo::getPasswordName()) == nullptr) {
+        std::cerr << "Не указан пароль пользователя\n";
+
+        exit(EXIT_FAILURE);
+    }
+
+    if (getenv(DbInfo::DbInfo::getDbName()) == nullptr) {
+        std::cerr << "Не указано имя базы данных\n";
 
         exit(EXIT_FAILURE);
     }

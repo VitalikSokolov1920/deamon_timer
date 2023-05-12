@@ -1,7 +1,6 @@
 #include <sstream>
 
 #include "FileParser.h"
-#include "../TimerHandler/TimerHandler.h"
 #include "../TimerHandlerSql/TimerHandlerSql.h"
 #include "../TimerHandlerDump/TimerHandlerDump.h"
 

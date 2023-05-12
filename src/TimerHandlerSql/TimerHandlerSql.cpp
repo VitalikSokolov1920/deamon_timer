@@ -1,7 +1,6 @@
 #include <iostream>
 
 #include "TimerHandlerSql.h"
-#include "../TimerHandler/TimerHandler.h"
 #include "../DbConnectionInfo/DbConnectionInfo.h"
 
 namespace Timer
@@ -18,11 +17,7 @@ namespace Timer
 
             try {
                 std::for_each(cmds.cbegin(), cmds.cend(), [&txn, this](std::string cmd) {
-                pqxx::result result = txn.exec(cmd);
-    
-                // if (result.affected_rows()) {
-                //     *logger << "AFFECTED_ROWS(" << cmd << "): " << result.affected_rows() << std::endl;
-                // }
+                    pqxx::result result = txn.exec(cmd);
                 });
     
                 txn.commit();
