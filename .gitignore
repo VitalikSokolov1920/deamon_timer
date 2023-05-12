@@ -1,5 +1,5 @@
 .vscode
+.idea
 build
-ivt_dump
-IVT_log.log
+cmake-build-debug
 config.log

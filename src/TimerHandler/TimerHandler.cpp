@@ -1,3 +1,5 @@
+#include <thread>
+
 #include "TimerHandler.h"
 
 namespace Timer
