@@ -26,4 +26,4 @@ add_executable(${PROJECT_NAME}
 )
 
 add_subdirectory(libpqxx build-pqxx)
-target_link_libraries(${PROJECT_NAME} -lpqxx -lpq -lpthread)
+target_link_libraries(${PROJECT_NAME} PRIVATE pthread pqxx)

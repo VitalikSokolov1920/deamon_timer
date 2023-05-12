@@ -4,7 +4,7 @@ fi
 
 cd build || return
 
-cmake ..
+cmake .. -DSKIP_BUILD_TEST=on -DBUILD_SHARED_LIBS=off -DBUILD_DOC=off -DINSTALL_TEST=off
 
 cmake --build .
 
@@ -21,4 +21,4 @@ export LOG_PATH='../IVT_log.log'
 # значение по умолчанию: ./backup
 export DUMP_PATH='../ivt_dump'
 
-# ./practice ../config.txt
+./IVT_deamon ../config.txt
